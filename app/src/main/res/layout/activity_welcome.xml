@@ -41,10 +41,10 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="152dp"
-        android:layout_height="173dp"
-        android:layout_marginStart="289dp"
-        android:layout_marginTop="13dp"
+        android:layout_width="178dp"
+        android:layout_height="213dp"
+        android:layout_marginStart="276dp"
+        android:layout_marginTop="28dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:srcCompat="@drawable/mine_img" />
