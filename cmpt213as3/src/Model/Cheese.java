@@ -8,6 +8,6 @@ public class Cheese {
     }
 
     private void populateCheese() {
-//
+        // randomly populate once at a time
     }
 }
