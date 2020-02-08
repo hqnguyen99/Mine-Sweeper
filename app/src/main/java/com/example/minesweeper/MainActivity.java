@@ -94,13 +94,13 @@ public class MainActivity extends AppCompatActivity {
     private int countBombs(int r, int c) {
         int counter = 0;
 
-        for (int i = 0; i < r; i++) {
+        for (int i = 0; i < NUM_ROWS; i++) {
             if (grid[i][c]) {
                 counter++;
             }
         }
 
-        for (int j = 0; j < c; j++) {
+        for (int j = 0; j < NUM_COLS; j++) {
             if (grid[r][j]) {
                 counter++;
             }

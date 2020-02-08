@@ -20,19 +20,19 @@
             android:id="@+id/playGameButton"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:text="Button" />
+            android:text="Play Game!" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/optionsButton"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:text="Button" />
+            android:text="Options" />
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/helpButton"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:text="Button" />
+            android:text="Help" />
     </LinearLayout>
 
     <TextView
