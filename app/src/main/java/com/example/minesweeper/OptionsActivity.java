@@ -3,18 +3,25 @@ package com.example.minesweeper;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 public class OptionsActivity extends AppCompatActivity {
+    private static Game game;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options);
 
+        game = Game.getInstance();
+
         createBoardSelectionButton();
         createMinesSelectionButton();
+        setupEndButton();
+
     }
 
     private void createBoardSelectionButton() {
@@ -24,10 +31,18 @@ public class OptionsActivity extends AppCompatActivity {
 
         // Create the buttons:
         for( int i =0; i < num_rows.length; i++){
-            int row = num_rows[i];
-            int column = num_columns[i];
+            final int ROW = num_rows[i];
+            final int COLUMN = num_columns[i];
             RadioButton button = new RadioButton(this);
-            button.setText(row + " x " + column);
+            button.setText(ROW + " x " + COLUMN);
+
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    game.setBoardRow(ROW);
+                    game.setBoardColumn(COLUMN);
+                }
+            });
 
             // Add to radio group
             boardSelectionGroup.addView(button);
@@ -40,11 +55,28 @@ public class OptionsActivity extends AppCompatActivity {
 
         //Create the button:
         for( int i =0 ; i < num_mines.length; i++){
-            int mine = num_mines[i];
+            final int MINE = num_mines[i];
             RadioButton button = new RadioButton(this);
-            button.setText(mine);
+            button.setText(String.valueOf(MINE));
+
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    game.setNumberOfMines(MINE);
+                }
+            });
 
             minesGroup.addView(button);
         }
+    }
+
+    private void setupEndButton() {
+        Button endButton = (Button) findViewById(R.id.endButton);
+        endButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 }
