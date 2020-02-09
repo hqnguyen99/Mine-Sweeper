@@ -11,16 +11,25 @@ import android.widget.TableRow;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
-    private static final int NUM_ROWS = 4;
-    private static final int NUM_COLS = 6;
-    private int numBombs = 5;
-    Button buttons[][] = new Button[NUM_ROWS][NUM_COLS];
-    private boolean grid[][] = new boolean[NUM_ROWS][NUM_COLS];
+    private static Game game;
+    private  static int num_rows;
+    private  static int num_cols ;
+    private  static int num_bombs;
+
+    Button buttons[][];
+    private boolean grid[][];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        game = Game.getInstance();
+        num_rows = game.getBoardRow();
+        num_cols = game.getBoardColumn();
+        num_bombs = game.getNumberOfMines();
+        buttons = new Button[num_rows][num_cols];
+        grid = new boolean[num_rows][num_cols];
 
         populateButtons();
         setBombs();
@@ -30,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private void populateButtons() {
         TableLayout table = (TableLayout) findViewById(R.id.tableForButtons);
 
-        for(int row = 0; row < NUM_ROWS; row++){
+        for(int row = 0; row < num_rows; row++){
             TableRow tableRow = new TableRow(this);
             tableRow.setLayoutParams(new TableLayout.LayoutParams(
                     TableLayout.LayoutParams.MATCH_PARENT,
@@ -39,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                     1.0f));
             table.addView(tableRow);
 
-            for(int col = 0; col < NUM_COLS; col++){
+            for(int col = 0; col < num_cols; col++){
 
                 Button button = new Button(this);
                 button.setLayoutParams(new TableRow.LayoutParams(
@@ -55,8 +64,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void buttonClicked() {
-        for (int r = 0; r < NUM_ROWS; r++) {
-            for (int c = 0; c < NUM_COLS; c++) {
+        for (int r = 0; r < num_rows; r++) {
+            for (int c = 0; c < num_cols; c++) {
                 Button button = buttons[r][c];
                 final int FINAL_ROW = r;
                 final int FINAL_COL = c;
@@ -94,13 +103,13 @@ public class MainActivity extends AppCompatActivity {
     private int countBombs(int r, int c) {
         int counter = 0;
 
-        for (int i = 0; i < NUM_ROWS; i++) {
+        for (int i = 0; i < num_rows; i++) {
             if (grid[i][c]) {
                 counter++;
             }
         }
 
-        for (int j = 0; j < NUM_COLS; j++) {
+        for (int j = 0; j < num_cols; j++) {
             if (grid[r][j]) {
                 counter++;
             }
@@ -113,15 +122,15 @@ public class MainActivity extends AppCompatActivity {
 
     // check overlapped areas
     private void setBombs() {
-        for (int i = 0; i < numBombs; i++) {
+        for (int i = 0; i < num_bombs; i++) {
             Random rand = new Random();
-            int r = rand.nextInt(NUM_ROWS);
-            int c = rand.nextInt(NUM_COLS);
+            int r = rand.nextInt(num_rows);
+            int c = rand.nextInt(num_cols);
 
             // fixes overlapped positions
             while (grid[r][c]) {
-                r = rand.nextInt(NUM_ROWS);
-                c = rand.nextInt(NUM_COLS);
+                r = rand.nextInt(num_rows);
+                c = rand.nextInt(num_cols);
             }
 
             grid[r][c] = true;
