@@ -30,11 +30,11 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     private void setupOptionsButton() {
-        Button optionsButton = (Button) findViewById(R.id.optionsButton);
+        Button optionsButton = (Button) findViewById((R.id.optionsButton));
         optionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainMenuActivity.this,OptionsActivity.class);
+            public void onClick(View v) {
+                Intent intent = new Intent(MainMenuActivity.this, OptionsActivity.class);
                 startActivity(intent);
             }
         });
