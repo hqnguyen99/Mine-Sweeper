@@ -12,12 +12,12 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     private static Game game;
-    private  static int num_rows;
-    private  static int num_cols ;
-    private  static int num_bombs;
+    private static int num_rows;
+    private static int num_cols ;
+    private static int num_bombs;
 
     Button buttons[][];
-    private boolean grid[][];
+    private int grid[][];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +29,11 @@ public class MainActivity extends AppCompatActivity {
         num_cols = game.getBoardColumn();
         num_bombs = game.getNumberOfMines();
         buttons = new Button[num_rows][num_cols];
-        grid = new boolean[num_rows][num_cols];
+        grid = new int[num_rows][num_cols];
 
         populateButtons();
         setBombs();
+        setValues();
         buttonClicked();
     }
 
@@ -54,11 +55,12 @@ public class MainActivity extends AppCompatActivity {
                 button.setLayoutParams(new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
                         TableRow.LayoutParams.MATCH_PARENT,
-                1.0f));
+                        1.0f));
 
                 tableRow.addView(button);
                 buttons[row][col] = button;
-                grid[row][col] = false;
+                grid[row][col] = 0;
+
             }
         }
     }
@@ -67,13 +69,13 @@ public class MainActivity extends AppCompatActivity {
         for (int r = 0; r < num_rows; r++) {
             for (int c = 0; c < num_cols; c++) {
                 Button button = buttons[r][c];
-                final int FINAL_ROW = r;
-                final int FINAL_COL = c;
+                final int row = r;
+                final int col = c;
 
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        gridButtonClicked(FINAL_ROW, FINAL_COL);
+                        gridButtonClicked(row, col);
                     }
                 });
             }
@@ -82,18 +84,21 @@ public class MainActivity extends AppCompatActivity {
 
     private void gridButtonClicked(int r, int c) {
         Button b = buttons[r][c];
-        boolean isBomb = grid[r][c];
+        int isBomb = grid[r][c];
+
+        //lockButtonSizes();
 
         // put in if-else
-        if (isBomb) {
-            grid[r][c] = false;
+        if (isBomb == -1) {
+            updateBombs(r, c);
             b.setText("bomb!");
 
             // update the status of all clicked buttons
+        } else if (isBomb == -2) {
+            grid[r][c] = countBombs(r, c);
+            b.setText(String.valueOf(grid[r][c]));
         } else {
-            int bombs = countBombs(r, c);
-            String strBombs = String.valueOf(bombs);
-            b.setText(strBombs);
+            b.setText(String.valueOf(grid[r][c]));
         }
 
         // generate image
@@ -104,13 +109,13 @@ public class MainActivity extends AppCompatActivity {
         int counter = 0;
 
         for (int i = 0; i < num_rows; i++) {
-            if (grid[i][c]) {
+            if(grid[i][c] == -1) {
                 counter++;
             }
         }
 
         for (int j = 0; j < num_cols; j++) {
-            if (grid[r][j]) {
+            if (grid[r][j] == -1) {
                 counter++;
             }
         }
@@ -128,15 +133,38 @@ public class MainActivity extends AppCompatActivity {
             int c = rand.nextInt(num_cols);
 
             // fixes overlapped positions
-            while (grid[r][c]) {
+            while (grid[r][c] == -1) {
                 r = rand.nextInt(num_rows);
                 c = rand.nextInt(num_cols);
             }
 
-            grid[r][c] = true;
+            grid[r][c] = -1;
 
         }
 
     }
 
+    private void setValues() {
+        for (int i = 0; i < num_rows; i++) {
+            for (int j = 0; j < num_cols; j++) {
+                if (grid[i][j] != -1) {
+                    grid[i][j] = countBombs(i, j);
+                }
+            }
+        }
+    }
+
+    private void updateBombs(int r, int c) {
+        for (int i = 0; i < num_rows; i++) {
+            grid[i][c] = countBombs(i, c);
+        }
+
+        for (int j = 0; j < num_cols; j++) {
+            grid[r][j] = countBombs(r, j);
+        }
+
+        grid[r][c] = -2;
+    }
+
 }
+
