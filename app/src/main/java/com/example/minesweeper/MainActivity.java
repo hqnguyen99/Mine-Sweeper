@@ -17,7 +17,9 @@ public class MainActivity extends AppCompatActivity {
     private static int num_bombs;
 
     Button buttons[][];
+    // 0 -> empty, -1 -> bomb
     private int grid[][];
+    private boolean clicked[][];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +32,22 @@ public class MainActivity extends AppCompatActivity {
         num_bombs = game.getNumberOfMines();
         buttons = new Button[num_rows][num_cols];
         grid = new int[num_rows][num_cols];
+        clicked = new boolean[num_rows][num_cols];
 
         populateButtons();
         setBombs();
-        setValues();
+        setInitialValues();
         buttonClicked();
+    }
+
+    private void setInitialValues() {
+        for (int i = 0; i < num_rows; i++) {
+            for (int j = 0; j < num_cols; j++) {
+                if (grid[i][j] != -1) {
+                    grid[i][j] = countBombs(i, j);
+                }
+            }
+        }
     }
 
     private void populateButtons() {
@@ -60,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 tableRow.addView(button);
                 buttons[row][col] = button;
                 grid[row][col] = 0;
+                clicked[row][col] = false;
 
             }
         }
@@ -86,23 +100,18 @@ public class MainActivity extends AppCompatActivity {
         Button b = buttons[r][c];
         int isBomb = grid[r][c];
 
-        //lockButtonSizes();
 
-        // put in if-else
         if (isBomb == -1) {
+//            clicked[r][c] = true;
             updateBombs(r, c);
             b.setText("bomb!");
 
-            // update the status of all clicked buttons
-        } else if (isBomb == -2) {
-            grid[r][c] = countBombs(r, c);
-            b.setText(String.valueOf(grid[r][c]));
         } else {
+            clicked[r][c] = true;
             b.setText(String.valueOf(grid[r][c]));
         }
 
-        // generate image
-        // check the row + col and count
+
     }
 
     private int countBombs(int r, int c) {
@@ -125,7 +134,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    // check overlapped areas
     private void setBombs() {
         for (int i = 0; i < num_bombs; i++) {
             Random rand = new Random();
@@ -144,26 +152,31 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void setValues() {
+    private void updateBombs(int r, int c) {
+        grid[r][c] = 0;
+
         for (int i = 0; i < num_rows; i++) {
-            for (int j = 0; j < num_cols; j++) {
-                if (grid[i][j] != -1) {
-                    grid[i][j] = countBombs(i, j);
+            if (grid[i][c] != -1) {
+                grid[i][c] = countBombs(i, c);
+
+                if (clicked[i][c]) {
+                    buttons[i][c].setText(String.valueOf(grid[i][c]));
                 }
             }
         }
-    }
-
-    private void updateBombs(int r, int c) {
-        for (int i = 0; i < num_rows; i++) {
-            grid[i][c] = countBombs(i, c);
-        }
 
         for (int j = 0; j < num_cols; j++) {
-            grid[r][j] = countBombs(r, j);
+            if (grid[r][j] != -1) {
+                grid[r][j] = countBombs(r, j);
+
+                if (clicked[r][j]) {
+                    buttons[r][j].setText(String.valueOf(grid[r][j]));
+                }
+            }
         }
 
-        grid[r][c] = -2;
+        grid[r][c] = countBombs(r, c);
+
     }
 
 }
