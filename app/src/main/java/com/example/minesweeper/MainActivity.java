@@ -8,6 +8,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -28,9 +30,9 @@ public class MainActivity extends AppCompatActivity {
     private int numOfScans = 0;
 
     private Button buttons[][];
+
+
     // 0 -> empty, -1 -> bomb
-
-
     private int values[][];
     // contains the data for num of bombs in col + row
 
@@ -62,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         TextView setMinesFound = (TextView) findViewById(R.id.minesFound);
 
         setScans.setText("# Scans Used: " + numOfScans);
-        setMinesFound.setText("Found " + numOfMinesFound + " of " + num_bombs + " found.");
+        setMinesFound.setText("Found " + numOfMinesFound + " of " + num_bombs + " bombs.");
 
         for(int row = 0; row < numRows; row++){
             TableRow tableRow = new TableRow(this);
@@ -147,7 +149,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (values[r][c] == -1) {
+            scanAnimation(r, c);
             updateBombs(r, c);
+            clicked[r][c] = true;
             numOfMinesFound++;
 
             setScans.setText("# Scans Used: " + numOfScans);
@@ -156,13 +160,14 @@ public class MainActivity extends AppCompatActivity {
             // set bomb image
             int newWidth = button.getWidth();
             int newHeight = button.getHeight();
-            Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bomb_icon);
+            Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.green_bomb);
             Bitmap scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, true);
             Resources resource = getResources();
             button.setBackground(new BitmapDrawable(resource, scaledBitmap));
 
         } else {
             clicked[r][c] = true;
+            scanAnimation(r, c);
             setScans.setText("# Scans Used: " + numOfScans);
             button.setText(String.valueOf(values[r][c]));
         }
@@ -211,6 +216,7 @@ public class MainActivity extends AppCompatActivity {
         values[r][c] = 0;
 
         for (int i = 0; i < numRows; i++) {
+
             if (values[i][c] != -1) {
                 values[i][c] = countBombs(i, c);
 
@@ -221,6 +227,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         for (int j = 0; j < numCols; j++) {
+
             if (values[r][j] != -1) {
                 values[r][j] = countBombs(r, j);
 
@@ -232,6 +239,18 @@ public class MainActivity extends AppCompatActivity {
 
         values[r][c] = countBombs(r, c);
 
+    }
+
+    private void scanAnimation(int row, int col) {
+        Animation shake = AnimationUtils.loadAnimation(this, R.xml.shake);
+
+        for (int i = 0; i < numRows; i++) {
+            buttons[i][col].startAnimation(shake);
+        }
+
+        for (int j = 0; j < numCols; j++) {
+            buttons[row][j].startAnimation(shake);
+        }
     }
 
 }
