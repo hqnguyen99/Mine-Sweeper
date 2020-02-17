@@ -13,23 +13,29 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.Random;
 
+
+// main class that initiates the actual game
+// calls the Game class which gets information about the board (ex. # rows + cols)
 public class MainActivity extends AppCompatActivity {
     private static Game game;
-    private static int num_rows;
-    private static int num_cols ;
+    private static int numRows;
+    private static int numCols;
     private static int num_bombs;
 
     private int numOfMinesFound = 0;
     private int numOfScans = 0;
 
-    Button buttons[][];
+    private Button buttons[][];
     // 0 -> empty, -1 -> bomb
-    private int grid[][];
+
+
+    private int values[][];
+    // contains the data for num of bombs in col + row
+
     private boolean clicked[][];
+    // checks if cell has been clicked before
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,27 +43,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         game = Game.getInstance();
-        num_rows = game.getBoardRow();
-        num_cols = game.getBoardColumn();
+        numRows = game.getBoardRow();
+        numCols = game.getBoardColumn();
         num_bombs = game.getNumberOfMines();
-        buttons = new Button[num_rows][num_cols];
-        grid = new int[num_rows][num_cols];
-        clicked = new boolean[num_rows][num_cols];
+        buttons = new Button[numRows][numCols];
+        values = new int[numRows][numCols];
+        clicked = new boolean[numRows][numCols];
 
         populateButtons();
         setBombs();
         setInitialValues();
-        buttonClicked();
-    }
-
-    private void setInitialValues() {
-        for (int i = 0; i < num_rows; i++) {
-            for (int j = 0; j < num_cols; j++) {
-                if (grid[i][j] != -1) {
-                    grid[i][j] = countBombs(i, j);
-                }
-            }
-        }
+        checkButtonClicked();
     }
 
     private void populateButtons() {
@@ -68,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         setScans.setText("# Scans Used: " + numOfScans);
         setMinesFound.setText("Found " + numOfMinesFound + " of " + num_bombs + " found.");
 
-        for(int row = 0; row < num_rows; row++){
+        for(int row = 0; row < numRows; row++){
             TableRow tableRow = new TableRow(this);
             tableRow.setLayoutParams(new TableLayout.LayoutParams(
                     TableLayout.LayoutParams.MATCH_PARENT,
@@ -77,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                     1.0f));
             table.addView(tableRow);
 
-            for(int col = 0; col < num_cols; col++){
+            for(int col = 0; col < numCols; col++){
 
                 Button button = new Button(this);
                 button.setLayoutParams(new TableRow.LayoutParams(
@@ -87,16 +83,44 @@ public class MainActivity extends AppCompatActivity {
 
                 tableRow.addView(button);
                 buttons[row][col] = button;
-                grid[row][col] = 0;
+                values[row][col] = 0;
                 clicked[row][col] = false;
 
             }
         }
     }
 
-    private void buttonClicked() {
-        for (int r = 0; r < num_rows; r++) {
-            for (int c = 0; c < num_cols; c++) {
+    private void setBombs() {
+        for (int i = 0; i < num_bombs; i++) {
+            Random rand = new Random();
+            int r = rand.nextInt(numRows);
+            int c = rand.nextInt(numCols);
+
+            // fixes overlapped positions
+            while (values[r][c] == -1) {
+                r = rand.nextInt(numRows);
+                c = rand.nextInt(numCols);
+            }
+
+            values[r][c] = -1;
+
+        }
+
+    }
+
+    private void setInitialValues() {
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++) {
+                if (values[i][j] != -1) {
+                    values[i][j] = countBombs(i, j);
+                }
+            }
+        }
+    }
+
+    private void checkButtonClicked() {
+        for (int r = 0; r < numRows; r++) {
+            for (int c = 0; c < numCols; c++) {
                 Button button = buttons[r][c];
                 final int row = r;
                 final int col = c;
@@ -115,42 +139,41 @@ public class MainActivity extends AppCompatActivity {
         TextView setScans = (TextView) findViewById(R.id.scans);
         TextView setMinesFound = (TextView) findViewById(R.id.minesFound);
 
-        Button b = buttons[r][c];
-        int isBomb = grid[r][c];
+        Button button = buttons[r][c];
 
         numOfScans++;
 
         lockButtonSizes();
 
 
-        if (isBomb == -1) {
+        if (values[r][c] == -1) {
             updateBombs(r, c);
             numOfMinesFound++;
 
             setScans.setText("# Scans Used: " + numOfScans);
             setMinesFound.setText("Found " + numOfMinesFound + " of " + num_bombs + " found.");
-//            b.setText("bomb!");
 
             // set bomb image
-            int newWidth = b.getWidth();
-            int newHeight = b.getHeight();
+            int newWidth = button.getWidth();
+            int newHeight = button.getHeight();
             Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bomb_icon);
             Bitmap scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, true);
             Resources resource = getResources();
-            b.setBackground(new BitmapDrawable(resource, scaledBitmap));
+            button.setBackground(new BitmapDrawable(resource, scaledBitmap));
 
         } else {
             clicked[r][c] = true;
             setScans.setText("# Scans Used: " + numOfScans);
-            b.setText(String.valueOf(grid[r][c]));
+            button.setText(String.valueOf(values[r][c]));
         }
 
 
     }
 
+    // as followed from Dr. Fraser's youtube video
     private void lockButtonSizes() {
-        for (int row = 0; row < num_rows; row++) {
-            for (int col = 0; col < num_cols; col++) {
+        for (int row = 0; row < numRows; row++) {
+            for (int col = 0; col < numCols; col++) {
                 Button button = buttons[row][col];
 
                 int width = button.getWidth();
@@ -167,14 +190,14 @@ public class MainActivity extends AppCompatActivity {
     private int countBombs(int r, int c) {
         int counter = 0;
 
-        for (int i = 0; i < num_rows; i++) {
-            if(grid[i][c] == -1) {
+        for (int i = 0; i < numRows; i++) {
+            if(values[i][c] == -1) {
                 counter++;
             }
         }
 
-        for (int j = 0; j < num_cols; j++) {
-            if (grid[r][j] == -1) {
+        for (int j = 0; j < numCols; j++) {
+            if (values[r][j] == -1) {
                 counter++;
             }
         }
@@ -184,48 +207,30 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void setBombs() {
-        for (int i = 0; i < num_bombs; i++) {
-            Random rand = new Random();
-            int r = rand.nextInt(num_rows);
-            int c = rand.nextInt(num_cols);
-
-            // fixes overlapped positions
-            while (grid[r][c] == -1) {
-                r = rand.nextInt(num_rows);
-                c = rand.nextInt(num_cols);
-            }
-
-            grid[r][c] = -1;
-
-        }
-
-    }
-
     private void updateBombs(int r, int c) {
-        grid[r][c] = 0;
+        values[r][c] = 0;
 
-        for (int i = 0; i < num_rows; i++) {
-            if (grid[i][c] != -1) {
-                grid[i][c] = countBombs(i, c);
+        for (int i = 0; i < numRows; i++) {
+            if (values[i][c] != -1) {
+                values[i][c] = countBombs(i, c);
 
                 if (clicked[i][c]) {
-                    buttons[i][c].setText(String.valueOf(grid[i][c]));
+                    buttons[i][c].setText(String.valueOf(values[i][c]));
                 }
             }
         }
 
-        for (int j = 0; j < num_cols; j++) {
-            if (grid[r][j] != -1) {
-                grid[r][j] = countBombs(r, j);
+        for (int j = 0; j < numCols; j++) {
+            if (values[r][j] != -1) {
+                values[r][j] = countBombs(r, j);
 
                 if (clicked[r][j]) {
-                    buttons[r][j].setText(String.valueOf(grid[r][j]));
+                    buttons[r][j].setText(String.valueOf(values[r][j]));
                 }
             }
         }
 
-        grid[r][c] = countBombs(r, c);
+        values[r][c] = countBombs(r, c);
 
     }
 
