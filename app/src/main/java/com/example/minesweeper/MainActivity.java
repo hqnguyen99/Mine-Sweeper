@@ -2,6 +2,10 @@ package com.example.minesweeper;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -116,6 +120,8 @@ public class MainActivity extends AppCompatActivity {
 
         numOfScans++;
 
+        lockButtonSizes();
+
 
         if (isBomb == -1) {
             updateBombs(r, c);
@@ -123,7 +129,15 @@ public class MainActivity extends AppCompatActivity {
 
             setScans.setText("# Scans Used: " + numOfScans);
             setMinesFound.setText("Found " + numOfMinesFound + " of " + num_bombs + " found.");
-            b.setText("bomb!");
+//            b.setText("bomb!");
+
+            // set bomb image
+            int newWidth = b.getWidth();
+            int newHeight = b.getHeight();
+            Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bomb_icon);
+            Bitmap scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, true);
+            Resources resource = getResources();
+            b.setBackground(new BitmapDrawable(resource, scaledBitmap));
 
         } else {
             clicked[r][c] = true;
@@ -132,6 +146,22 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    private void lockButtonSizes() {
+        for (int row = 0; row < num_rows; row++) {
+            for (int col = 0; col < num_cols; col++) {
+                Button button = buttons[row][col];
+
+                int width = button.getWidth();
+                button.setMinWidth(width);
+                button.setMaxWidth(width);
+
+                int height = button.getHeight();
+                button.setMinHeight(height);
+                button.setMaxHeight(height);
+            }
+        }
     }
 
     private int countBombs(int r, int c) {
