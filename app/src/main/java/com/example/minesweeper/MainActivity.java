@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.Random;
 
@@ -15,6 +18,9 @@ public class MainActivity extends AppCompatActivity {
     private static int num_rows;
     private static int num_cols ;
     private static int num_bombs;
+
+    private int numOfMinesFound = 0;
+    private int numOfScans = 0;
 
     Button buttons[][];
     // 0 -> empty, -1 -> bomb
@@ -52,6 +58,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void populateButtons() {
         TableLayout table = (TableLayout) findViewById(R.id.tableForButtons);
+        TextView setScans = (TextView) findViewById(R.id.scans);
+        TextView setMinesFound = (TextView) findViewById(R.id.minesFound);
+
+        setScans.setText("# Scans Used: " + numOfScans);
+        setMinesFound.setText("Found " + numOfMinesFound + " of " + num_bombs + " found.");
 
         for(int row = 0; row < num_rows; row++){
             TableRow tableRow = new TableRow(this);
@@ -97,17 +108,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void gridButtonClicked(int r, int c) {
+        TextView setScans = (TextView) findViewById(R.id.scans);
+        TextView setMinesFound = (TextView) findViewById(R.id.minesFound);
+
         Button b = buttons[r][c];
         int isBomb = grid[r][c];
 
+        numOfScans++;
+
 
         if (isBomb == -1) {
-//            clicked[r][c] = true;
             updateBombs(r, c);
+            numOfMinesFound++;
+
+            setScans.setText("# Scans Used: " + numOfScans);
+            setMinesFound.setText("Found " + numOfMinesFound + " of " + num_bombs + " found.");
             b.setText("bomb!");
 
         } else {
             clicked[r][c] = true;
+            setScans.setText("# Scans Used: " + numOfScans);
             b.setText(String.valueOf(grid[r][c]));
         }
 
