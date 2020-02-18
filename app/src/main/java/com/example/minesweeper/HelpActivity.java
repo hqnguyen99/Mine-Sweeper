@@ -1,6 +1,9 @@
 package com.example.minesweeper;
 
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -20,13 +23,7 @@ public class HelpActivity extends AppCompatActivity {
 
     private void setText() {
         TextView text = (TextView) findViewById(R.id.textInfo);
-
-        text.setText("Welcome to the MineSeeker Game! " +
-                "The objective of this game is to find all the bombs/mines located " +
-                "in the 2d grid. Once a cell is clicked, it will either display a bomb " +
-                "if it exists in the cell, or it will display a number that indicates " +
-                "the number of bombs in the whole row and column. Try to get the least amount " +
-                "of scans while locating all the bombs to win the game! Good luck!");
+        text.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     private void setupEndButton() {

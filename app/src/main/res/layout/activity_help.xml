@@ -11,7 +11,10 @@
         android:layout_width="447dp"
         android:layout_height="236dp"
         android:layout_marginTop="76dp"
-        android:text="TextView"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
+        android:background="@drawable/border_text"
+        android:text="@string/rule"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,7 +23,20 @@
         android:id="@+id/helpEndButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="52dp"
+        android:layout_marginBottom="28dp"
         android:text="RETURN"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="69dp"
+        android:layout_marginTop="35dp"
+        android:text="HELP"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
