@@ -16,6 +16,18 @@ public class MainMenuActivity extends AppCompatActivity {
 
         setupPlayGameButton();
         setupOptionsButton();
+        setupHelpButton();
+    }
+
+    private void setupHelpButton() {
+        Button helpButton = (Button) findViewById(R.id.helpButton);
+        helpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainMenuActivity.this, HelpActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void setupPlayGameButton() {
@@ -30,10 +42,10 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     private void setupOptionsButton() {
-        Button optionsButton = (Button) findViewById((R.id.optionsButton));
+        Button optionsButton = (Button) findViewById(R.id.optionsButton);
         optionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 Intent intent = new Intent(MainMenuActivity.this, OptionsActivity.class);
                 startActivity(intent);
             }

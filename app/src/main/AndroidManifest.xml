@@ -27,6 +27,8 @@
         <activity
             android:name=".MainActivity"
             android:screenOrientation="sensorLandscape" />
+        <activity android:name=".HelpActivity"
+            android:screenOrientation="sensorLandscape" />
     </application>
 
 </manifest>
