@@ -40,4 +40,5 @@ public class Game {
     public void setNumberOfMines(int numberOfMines) {
         this.numberOfMines = numberOfMines;
     }
+    //
 }
