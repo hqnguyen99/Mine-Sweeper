@@ -21,18 +21,29 @@
             android:id="@+id/playGameButton"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:text="Play Game!" />
+            android:background="@drawable/custom_button"
+            android:text="Play Game" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1" />
 
         <Button
             android:id="@+id/optionsButton"
             android:layout_width="match_parent"
             android:layout_height="80dp"
+            android:background="@drawable/custom_button"
             android:text="Options" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1" />
 
         <Button
             android:id="@+id/helpButton"
             android:layout_width="match_parent"
             android:layout_height="80dp"
+            android:background="@drawable/custom_button"
             android:text="Help" />
     </LinearLayout>
 
@@ -43,6 +54,7 @@
         android:layout_marginStart="310dp"
         android:layout_marginBottom="36dp"
         android:text="MAIN MENU"
+        android:textStyle="bold"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="#FF9800"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
