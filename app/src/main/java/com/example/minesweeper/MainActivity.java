@@ -29,7 +29,7 @@ import java.util.Random;
 
 // main class that initiates the actual game
 // calls the Game class which gets information about the board (ex. # rows + cols)
-// trophy image https://www.123rf.com/photo_69680082_stock-vector-championship-trophy-cup-icon-vector-illustration-graphic-design.html
+// trophy image: https://www.123rf.com/photo_69680082_stock-vector-championship-trophy-cup-icon-vector-illustration-graphic-design.html
 public class MainActivity extends AppCompatActivity {
     private static Game game;
     private static int numRows;
