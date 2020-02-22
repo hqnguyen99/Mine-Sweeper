@@ -1,16 +1,25 @@
 package com.example.minesweeper;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -24,10 +33,11 @@ public class MainActivity extends AppCompatActivity {
     private static Game game;
     private static int numRows;
     private static int numCols;
-    private static int num_bombs;
+    private static int totalBombs;
 
     private int numOfMinesFound = 0;
     private int numOfScans = 0;
+    private int bombsFound = 0;
 
     private Button buttons[][];
 
@@ -47,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         game = Game.getInstance();
         numRows = game.getBoardRow();
         numCols = game.getBoardColumn();
-        num_bombs = game.getNumberOfMines();
+        totalBombs = game.getNumberOfMines();
         buttons = new Button[numRows][numCols];
         values = new int[numRows][numCols];
         clicked = new boolean[numRows][numCols];
@@ -56,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         setBombs();
         setInitialValues();
         checkButtonClicked();
+
     }
 
     private void populateButtons() {
@@ -64,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         TextView setMinesFound = (TextView) findViewById(R.id.minesFound);
 
         setScans.setText("# Scans Used: " + numOfScans);
-        setMinesFound.setText("Found " + numOfMinesFound + " of " + num_bombs + " bombs.");
+        setMinesFound.setText("Found " + numOfMinesFound + " of " + totalBombs + " bombs.");
 
         for(int row = 0; row < numRows; row++){
             TableRow tableRow = new TableRow(this);
@@ -93,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setBombs() {
-        for (int i = 0; i < num_bombs; i++) {
+        for (int i = 0; i < totalBombs; i++) {
             Random rand = new Random();
             int r = rand.nextInt(numRows);
             int c = rand.nextInt(numCols);
@@ -143,8 +154,6 @@ public class MainActivity extends AppCompatActivity {
 
         Button button = buttons[r][c];
 
-        numOfScans++;
-
         lockButtonSizes();
 
 
@@ -153,9 +162,10 @@ public class MainActivity extends AppCompatActivity {
             updateBombs(r, c);
             clicked[r][c] = true;
             numOfMinesFound++;
+            bombsFound++;
 
             setScans.setText("# Scans Used: " + numOfScans);
-            setMinesFound.setText("Found " + numOfMinesFound + " of " + num_bombs + " found.");
+            setMinesFound.setText("Found " + numOfMinesFound + " of " + totalBombs + " found.");
 
             // set bomb image
             int newWidth = button.getWidth();
@@ -165,8 +175,17 @@ public class MainActivity extends AppCompatActivity {
             Resources resource = getResources();
             button.setBackground(new BitmapDrawable(resource, scaledBitmap));
 
+            if (bombsFound == totalBombs) {
+                LinearLayout foo = new LinearLayout(this);
+                revealAllCells();
+                onButtonShowPopupWindowClick(foo);
+
+
+            }
+
         } else {
             clicked[r][c] = true;
+            numOfScans++;
             scanAnimation(r, c);
             setScans.setText("# Scans Used: " + numOfScans);
             button.setText(String.valueOf(values[r][c]));
@@ -242,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void scanAnimation(int row, int col) {
-        Animation shake = AnimationUtils.loadAnimation(this, R.xml.shake);
+        @SuppressLint("ResourceType") Animation shake = AnimationUtils.loadAnimation(this, R.xml.shake);
 
         for (int i = 0; i < numRows; i++) {
             buttons[i][col].startAnimation(shake);
@@ -250,6 +269,44 @@ public class MainActivity extends AppCompatActivity {
 
         for (int j = 0; j < numCols; j++) {
             buttons[row][j].startAnimation(shake);
+        }
+    }
+
+    public void onButtonShowPopupWindowClick(View view) {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.popup_window, null);
+
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, true);
+
+        // the view passed in doesn't matter
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+
+        // close window when clicked / touched
+        popupView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+//
+                finish();
+
+                return true;
+            }
+        });
+
+
+
+
+
+    }
+
+    private void revealAllCells() {
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++) {
+                buttons[i][j].setText(String.valueOf(values[i][j]));
+            }
         }
     }
 
