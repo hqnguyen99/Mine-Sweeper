@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     private void populateButtons() {
         TableLayout table = (TableLayout) findViewById(R.id.tableForButtons);
         TextView setScans = (TextView) findViewById(R.id.scans);
@@ -170,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
             // set bomb image
             int newWidth = button.getWidth();
             int newHeight = button.getHeight();
-            Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.green_bomb);
+            Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pikachu_icon);
             Bitmap scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, true);
             Resources resource = getResources();
             button.setBackground(new BitmapDrawable(resource, scaledBitmap));

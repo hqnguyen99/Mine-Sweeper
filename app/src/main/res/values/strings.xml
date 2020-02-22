@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MineSweeper</string>
+    <string name="scans_used"># Scans Used: 0</string>
+    <string name="mines_found">Found 0 of</string>
 </resources>

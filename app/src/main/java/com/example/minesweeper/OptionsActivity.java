@@ -30,7 +30,7 @@ public class OptionsActivity extends AppCompatActivity {
         int[] num_columns= getResources().getIntArray(R.array.number_of_columns);
 
         // Create the buttons:
-        for( int i =0; i < num_rows.length; i++){
+        for( int i = 0; i < num_rows.length; i++){
             final int ROW = num_rows[i];
             final int COLUMN = num_columns[i];
             RadioButton button = new RadioButton(this);
