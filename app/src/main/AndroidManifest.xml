@@ -21,7 +21,8 @@
             android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".WelcomeActivity"
-            android:screenOrientation="sensorLandscape">
+            android:screenOrientation="sensorLandscape"
+            android:noHistory="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
