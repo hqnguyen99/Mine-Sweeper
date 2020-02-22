@@ -9,6 +9,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -29,6 +30,7 @@ import java.util.Random;
 
 // main class that initiates the actual game
 // calls the Game class which gets information about the board (ex. # rows + cols)
+// pikachu sound: https://www.soundboard.com/sb/sound/298334
 // trophy image: https://www.123rf.com/photo_69680082_stock-vector-championship-trophy-cup-icon-vector-illustration-graphic-design.html
 public class MainActivity extends AppCompatActivity {
     private static Game game;
@@ -160,6 +162,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (values[r][c] == -1) {
+            MediaPlayer pikachuSound = MediaPlayer.create(MainActivity.this, R.raw.pikachu_sound);
+            pikachuSound.start();
             scanAnimation(r, c);
             updateBombs(r, c);
             clicked[r][c] = true;
@@ -186,6 +190,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
         } else {
+            MediaPlayer scanSound = MediaPlayer.create(MainActivity.this, R.raw.scan_sound);
+            scanSound.start();
             clicked[r][c] = true;
             numOfScans++;
             scanAnimation(r, c);
