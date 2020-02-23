@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="19dp"
         android:layout_marginTop="54dp"
-        android:text="SETTINGS"
+        android:text="@string/settings"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="21dp"
         android:layout_marginTop="25dp"
-        android:text="BOARD SIZE"
+        android:text="@string/board_size"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/settingsButton" />
 
@@ -43,7 +43,7 @@
         android:layout_marginStart="304dp"
         android:layout_marginTop="114dp"
         android:layout_marginEnd="271dp"
-        android:text="# MINES"
+        android:text="@string/mines"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/boardSizeText"
         app:layout_constraintTop_toTopOf="parent" />
@@ -64,7 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="23dp"
         android:layout_marginTop="169dp"
-        android:text="Erase times played"
+        android:text="@string/erase_times_played"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/boardSizeText" />
 

@@ -14,7 +14,7 @@
         android:layout_marginStart="297dp"
         android:layout_marginTop="44dp"
         android:layout_marginEnd="297dp"
-        android:text="PIKA SEEKER"
+        android:text="@string/pika_seeker"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="#FFC107"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
         android:layout_marginBottom="16dp"
-        android:text="By Hoang and Devin"
+        android:text="@string/by_hoang_and_devin"
         android:textColor="#FF9800"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="28dp"
         android:layout_marginBottom="18dp"
-        android:text="Skip"
+        android:text="@string/skip"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
