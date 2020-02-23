@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name= "rule">
-        "Welcome to the MineSeeker Game! <br />"
-        "The objective of this game is to find all the bombs/mines located
-        in the 2d grid. Once a cell is clicked, it will either display a bomb
-        if it exists in the cell, or it will display a number that indicates
-        the number of bombs in the whole row and column. Try to get the least amount
-        of scans while locating all the bombs to win the game! Good luck!"
+        "Welcome to the Pika- Seeker Game! <br />"
+        "There are many pikachu playing "hide and seek " in the cell.
+        Our mission is to try finding all of them by openning the cell.
+        Once you open the empty cell, the scan is activated, showing the number of pikachu hiding in the row and column
+        Try to get the least amount of scans while locating all the pikachu to win the game! Good luck!"
 
         "About author: <br />"
         "Devin and Quyen, for the purpose of
         <a href= 'https://opencoursehub.cs.sfu.ca/bfraser/grav-cms/cmpt276/home'>Cmpt 276 Spring 2020</a>"
+
+        "Reference: <br /> "
+        "Background: https://wallpapersden.com/"
+        "Icon: https://favpng.com/"
+        "Animation: https://giphy.com/search/pikachu-hide-and-seek"
     </string>
 </resources>
