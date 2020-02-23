@@ -2,4 +2,13 @@
     <string name="app_name">MineSweeper</string>
     <string name="scans_used"># Scans Used: 0</string>
     <string name="mines_found">Found 0 of</string>
+    <string name="pika_seeker">PIKA SEEKER</string>
+    <string name="by_hoang_and_devin">By Hoang and Devin</string>
+    <string name="skip">Skip</string>
+    <string name="settings">SETTINGS</string>
+    <string name="board_size">BOARD SIZE</string>
+    <string name="mines"># MINES</string>
+    <string name="erase_times_played">Return</string>
+    <string name="help">HELP</string>
+    <string name="back">Return</string>
 </resources>
