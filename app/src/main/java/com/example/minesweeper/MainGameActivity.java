@@ -39,9 +39,8 @@ public class MainGameActivity extends AppCompatActivity {
     private Button buttons[][];
 
 
-    // 0 -> empty, -1 -> bomb, any other num -> num of pikachu's
+    // 0 -> empty, -1 -> bomb, any other num -> num of pikachu's in row + col
     private int values[][];
-    // contains the data for num of pikachu in col + row
 
     private boolean clicked[][];
     // checks if cell has been clicked before
@@ -119,6 +118,7 @@ public class MainGameActivity extends AppCompatActivity {
 
     }
 
+    // sets the values for all the pikachu in row + col at the start
     private void setInitialValues() {
         for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < numCols; j++) {
@@ -148,13 +148,14 @@ public class MainGameActivity extends AppCompatActivity {
 
     private void gridButtonClicked(int r, int c) {
         TextView setScans = (TextView) findViewById(R.id.scans);
-        TextView setMinesFound = (TextView) findViewById(R.id.minesFound);
+        TextView setPikasFound = (TextView) findViewById(R.id.minesFound);
 
         Button button = buttons[r][c];
 
         lockButtonSizes();
 
 
+        // found a pikachu
         if (values[r][c] == -1) {
             MediaPlayer pikachuSound = MediaPlayer.create(MainGameActivity.this, R.raw.pikachu_sound);
             pikachuSound.start();
@@ -164,7 +165,7 @@ public class MainGameActivity extends AppCompatActivity {
             numOfPikasFound++;
 
             setScans.setText("# Scans Used: " + numOfScans);
-            setMinesFound.setText("Found " + numOfPikasFound + " of " + totalPikas + " Pikachu.");
+            setPikasFound.setText("Found " + numOfPikasFound + " of " + totalPikas + " Pikachu.");
 
             // set pikachu image as per Dr. Fraser's videos
             int newWidth = button.getWidth();
@@ -174,6 +175,7 @@ public class MainGameActivity extends AppCompatActivity {
             Resources resource = getResources();
             button.setBackground(new BitmapDrawable(resource, scaledBitmap));
 
+            // found the last pikachu
             if (numOfPikasFound == totalPikas) {
                 LinearLayout foo = new LinearLayout(this);
                 revealAllCells();

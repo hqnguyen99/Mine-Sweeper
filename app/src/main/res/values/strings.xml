@@ -7,7 +7,7 @@
     <string name="skip">Skip</string>
     <string name="settings">SETTINGS</string>
     <string name="board_size">BOARD SIZE</string>
-    <string name="mines"># MINES</string>
+    <string name="mines"># OF PIKACHU(S)</string>
     <string name="erase_times_played">Return</string>
     <string name="help">HELP</string>
     <string name="back">Return</string>
