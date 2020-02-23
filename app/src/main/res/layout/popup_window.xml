@@ -11,6 +11,6 @@
         android:layout_centerInParent="true"
         android:layout_margin="30dp"
         android:textSize="22sp"
-        android:text="CONGRATULATIONS! You defused all the bombs! Click this box to exit!"/>
+        android:text="@string/congrats_string"/>
 
 </RelativeLayout>

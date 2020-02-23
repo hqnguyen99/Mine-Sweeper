@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name= "rule">
-        "Welcome to the Pika- Seeker Game! <br />"
-        "There are many pikachu playing "hide and seek " in the cell.
-        Our mission is to try finding all of them by openning the cell.
-        Once you open the empty cell, the scan is activated, showing the number of pikachu hiding in the row and column
-        Try to get the least amount of scans while locating all the pikachu to win the game! Good luck!"
+        "Welcome to the Pika Seeker Game! <br />"
+        "There are many pikachu playing a game of hide and seek in the Poke-Universe.
+        Your mission is to try and locate all of them by tapping on a cell!
+        Once you tap on a cell, a scan is activated, showing the number of Pikachu hiding in the row and column!
+        Try to get the least amount of scans while locating all of the Pikachu to win the game! Good luck!"
 
         "About author: <br />"
         "Devin and Quyen, for the purpose of
@@ -14,6 +14,8 @@
         "Reference: <br /> "
         "Background: https://wallpapersden.com/"
         "Icon: https://favpng.com/"
+        "Trophy Image: https://www.123rf.com/photo_69680082_stock-vector-championship-trophy-cup-icon-vector-illustration-graphic-design.html"
         "Animation: https://giphy.com/search/pikachu-hide-and-seek"
+        "Sounds: https://www.soundboard.com/sb/sound/298334"
     </string>
 </resources>

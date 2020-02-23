@@ -62,7 +62,7 @@ public class OptionsActivity extends AppCompatActivity {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    game.setNumberOfMines(MINE);
+                    game.setNumOfPikas(MINE);
                 }
             });
 
