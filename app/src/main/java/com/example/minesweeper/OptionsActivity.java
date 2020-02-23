@@ -26,13 +26,13 @@ public class OptionsActivity extends AppCompatActivity {
 
     private void createBoardSelectionButton() {
         RadioGroup boardSelectionGroup = (RadioGroup) findViewById(R.id.boardSelectionButton);
-        int[] num_rows= getResources().getIntArray(R.array.number_of_rows);
-        int[] num_columns= getResources().getIntArray(R.array.number_of_columns);
+        int[] numRows = getResources().getIntArray(R.array.number_of_rows);
+        int[] numCols = getResources().getIntArray(R.array.number_of_columns);
 
         // Create the buttons:
-        for( int i = 0; i < num_rows.length; i++){
-            final int ROW = num_rows[i];
-            final int COLUMN = num_columns[i];
+        for (int i = 0; i < numRows.length; i++) {
+            final int ROW = numRows[i];
+            final int COLUMN = numCols[i];
             RadioButton button = new RadioButton(this);
             button.setText(ROW + " x " + COLUMN);
 
@@ -51,11 +51,11 @@ public class OptionsActivity extends AppCompatActivity {
 
     private void createMinesSelectionButton() {
         RadioGroup minesGroup = (RadioGroup) findViewById(R.id.minesSelectionButton);
-        int[] num_mines = getResources().getIntArray(R.array.number_of_mines);
+        int[] numOfPikas = getResources().getIntArray(R.array.number_of_mines);
 
         //Create the button:
-        for( int i =0 ; i < num_mines.length; i++){
-            final int MINE = num_mines[i];
+        for (int i = 0 ; i < numOfPikas.length; i++) {
+            final int MINE = numOfPikas[i];
             RadioButton button = new RadioButton(this);
             button.setText(String.valueOf(MINE));
 
