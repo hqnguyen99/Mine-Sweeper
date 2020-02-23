@@ -1,10 +1,8 @@
 package com.example.minesweeper;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,7 +18,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -30,24 +27,21 @@ import java.util.Random;
 
 // main class that initiates the actual game
 // calls the Game class which gets information about the board (ex. # rows + cols)
-// pikachu sound: https://www.soundboard.com/sb/sound/298334
-// trophy image: https://www.123rf.com/photo_69680082_stock-vector-championship-trophy-cup-icon-vector-illustration-graphic-design.html
-public class MainActivity extends AppCompatActivity {
+public class MainGameActivity extends AppCompatActivity {
     private static Game game;
     private static int numRows;
     private static int numCols;
-    private static int totalBombs;
+    private static int totalPikas;
 
-    private int numOfMinesFound = 0;
+    private int numOfPikasFound = 0;
     private int numOfScans = 0;
-    private int bombsFound = 0;
 
     private Button buttons[][];
 
 
-    // 0 -> empty, -1 -> bomb
+    // 0 -> empty, -1 -> bomb, any other num -> num of pikachu's
     private int values[][];
-    // contains the data for num of bombs in col + row
+    // contains the data for num of pikachu in col + row
 
     private boolean clicked[][];
     // checks if cell has been clicked before
@@ -60,13 +54,13 @@ public class MainActivity extends AppCompatActivity {
         game = Game.getInstance();
         numRows = game.getBoardRow();
         numCols = game.getBoardColumn();
-        totalBombs = game.getNumberOfMines();
+        totalPikas = game.getNumOfPikas();
         buttons = new Button[numRows][numCols];
         values = new int[numRows][numCols];
         clicked = new boolean[numRows][numCols];
 
         populateButtons();
-        setBombs();
+        setPikas();
         setInitialValues();
         checkButtonClicked();
 
@@ -79,9 +73,9 @@ public class MainActivity extends AppCompatActivity {
         TextView setMinesFound = (TextView) findViewById(R.id.minesFound);
 
         setScans.setText("# Scans Used: " + numOfScans);
-        setMinesFound.setText("Found " + numOfMinesFound + " of " + totalBombs + " bombs.");
+        setMinesFound.setText("Found " + numOfPikasFound + " of " + totalPikas + " Pikachu.");
 
-        for(int row = 0; row < numRows; row++){
+        for (int row = 0; row < numRows; row++) {
             TableRow tableRow = new TableRow(this);
             tableRow.setLayoutParams(new TableLayout.LayoutParams(
                     TableLayout.LayoutParams.MATCH_PARENT,
@@ -90,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                     1.0f));
             table.addView(tableRow);
 
-            for(int col = 0; col < numCols; col++){
+            for (int col = 0; col < numCols; col++) {
 
                 Button button = new Button(this);
                 button.setLayoutParams(new TableRow.LayoutParams(
@@ -107,8 +101,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void setBombs() {
-        for (int i = 0; i < totalBombs; i++) {
+    private void setPikas() {
+        for (int i = 0; i < totalPikas; i++) {
             Random rand = new Random();
             int r = rand.nextInt(numRows);
             int c = rand.nextInt(numCols);
@@ -129,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < numCols; j++) {
                 if (values[i][j] != -1) {
-                    values[i][j] = countBombs(i, j);
+                    values[i][j] = countPikas(i, j);
                 }
             }
         }
@@ -162,18 +156,17 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (values[r][c] == -1) {
-            MediaPlayer pikachuSound = MediaPlayer.create(MainActivity.this, R.raw.pikachu_sound);
+            MediaPlayer pikachuSound = MediaPlayer.create(MainGameActivity.this, R.raw.pikachu_sound);
             pikachuSound.start();
             scanAnimation(r, c);
-            updateBombs(r, c);
+            updatePikas(r, c);
             clicked[r][c] = true;
-            numOfMinesFound++;
-            bombsFound++;
+            numOfPikasFound++;
 
             setScans.setText("# Scans Used: " + numOfScans);
-            setMinesFound.setText("Found " + numOfMinesFound + " of " + totalBombs + " found.");
+            setMinesFound.setText("Found " + numOfPikasFound + " of " + totalPikas + " Pikachu.");
 
-            // set bomb image
+            // set pikachu image as per Dr. Fraser's videos
             int newWidth = button.getWidth();
             int newHeight = button.getHeight();
             Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pikachu_icon);
@@ -181,16 +174,16 @@ public class MainActivity extends AppCompatActivity {
             Resources resource = getResources();
             button.setBackground(new BitmapDrawable(resource, scaledBitmap));
 
-            if (bombsFound == totalBombs) {
+            if (numOfPikasFound == totalPikas) {
                 LinearLayout foo = new LinearLayout(this);
                 revealAllCells();
-                onButtonShowPopupWindowClick(foo);
+                showPopup(foo);
 
 
             }
 
         } else {
-            MediaPlayer scanSound = MediaPlayer.create(MainActivity.this, R.raw.scan_sound);
+            MediaPlayer scanSound = MediaPlayer.create(MainGameActivity.this, R.raw.scan_sound);
             scanSound.start();
             clicked[r][c] = true;
             numOfScans++;
@@ -219,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private int countBombs(int r, int c) {
+    private int countPikas(int r, int c) {
         int counter = 0;
 
         for (int i = 0; i < numRows; i++) {
@@ -239,13 +232,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void updateBombs(int r, int c) {
+    private void updatePikas(int r, int c) {
         values[r][c] = 0;
 
         for (int i = 0; i < numRows; i++) {
 
             if (values[i][c] != -1) {
-                values[i][c] = countBombs(i, c);
+                values[i][c] = countPikas(i, c);
 
                 if (clicked[i][c]) {
                     buttons[i][c].setText(String.valueOf(values[i][c]));
@@ -256,7 +249,7 @@ public class MainActivity extends AppCompatActivity {
         for (int j = 0; j < numCols; j++) {
 
             if (values[r][j] != -1) {
-                values[r][j] = countBombs(r, j);
+                values[r][j] = countPikas(r, j);
 
                 if (clicked[r][j]) {
                     buttons[r][j].setText(String.valueOf(values[r][j]));
@@ -264,7 +257,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        values[r][c] = countBombs(r, c);
+        values[r][c] = countPikas(r, c);
 
     }
 
@@ -280,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void onButtonShowPopupWindowClick(View view) {
+    public void showPopup(View view) {
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.popup_window, null);
 
@@ -289,15 +282,13 @@ public class MainActivity extends AppCompatActivity {
 
         final PopupWindow popupWindow = new PopupWindow(popupView, width, height, true);
 
-        // the view passed in doesn't matter
+        // note: the view passed in doesn't matter
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
-
-        // close window when clicked / touched
         popupView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-//
+
                 finish();
 
                 return true;

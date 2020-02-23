@@ -11,4 +11,9 @@
     <string name="erase_times_played">Return</string>
     <string name="help">HELP</string>
     <string name="back">Return</string>
+    <string name="congrats_string">CONGRATULATIONS! You found all the Pikachu! Click this box to exit!</string>
+    <string name="play_game">Play Game</string>
+    <string name="options">Options</string>
+    <string name="help_string">Help</string>
+    <string name="main_menu_string">MAIN MENU</string>
 </resources>

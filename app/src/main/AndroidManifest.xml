@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".MainGameActivity"
             android:screenOrientation="sensorLandscape" />
         <activity android:name=".HelpActivity"
             android:screenOrientation="sensorLandscape" />

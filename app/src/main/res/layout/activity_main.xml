@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/main_id"
     android:background="@drawable/background"
-    tools:context=".MainActivity">
+    tools:context=".MainGameActivity">
 
     <TableLayout
         android:id="@+id/tableForButtons"

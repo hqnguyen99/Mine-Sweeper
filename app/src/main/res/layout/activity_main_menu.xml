@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:background="@drawable/custom_button"
-            android:text="Play Game" />
+            android:text="@string/play_game" />
         <View
             android:layout_width="0dp"
             android:layout_height="50dp"
@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:background="@drawable/custom_button"
-            android:text="Options" />
+            android:text="@string/options" />
         <View
             android:layout_width="0dp"
             android:layout_height="50dp"
@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:background="@drawable/custom_button"
-            android:text="Help" />
+            android:text="@string/help_string" />
     </LinearLayout>
 
     <TextView
@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="310dp"
         android:layout_marginBottom="36dp"
-        android:text="MAIN MENU"
+        android:text="@string/main_menu_string"
         android:textStyle="bold"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="#FF9800"
