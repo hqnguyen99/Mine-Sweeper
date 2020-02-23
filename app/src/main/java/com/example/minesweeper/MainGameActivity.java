@@ -27,6 +27,7 @@ import java.util.Random;
 
 // main class that initiates the actual game
 // calls the Game class which gets information about the board (ex. # rows + cols)
+// handles all game logic
 public class MainGameActivity extends AppCompatActivity {
     private static Game game;
     private static int numRows;
