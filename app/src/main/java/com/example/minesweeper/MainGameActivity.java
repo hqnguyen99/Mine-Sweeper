@@ -28,7 +28,6 @@ import java.util.Random;
 // main class that initiates the actual game
 // calls the Game class which gets information about the board (ex. # rows + cols)
 // handles all game logic
-
 public class MainGameActivity extends AppCompatActivity {
     private static Game game;
     private static int numRows;
@@ -40,12 +39,12 @@ public class MainGameActivity extends AppCompatActivity {
 
     private Button buttons[][];
 
-
-    // 0 -> empty, -1 -> bomb, any other num -> num of pikachu's in row + col
     private int values[][];
+    // 0 -> empty, -1 -> bomb, any other num -> num of pikachu's in row + col
 
     private boolean clicked[][];
     // checks if cell has been clicked before
+    // used to keep track of which values to display
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
