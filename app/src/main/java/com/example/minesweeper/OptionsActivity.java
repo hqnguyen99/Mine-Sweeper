@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+// options screen to set number of pikachu's and board information
 public class OptionsActivity extends AppCompatActivity {
     private static Game game;
 

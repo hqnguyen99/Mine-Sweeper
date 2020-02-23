@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+// this is the main menu where user can go to play, help or options menu
 public class MainMenuActivity extends AppCompatActivity {
 
     @Override

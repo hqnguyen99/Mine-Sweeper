@@ -8,7 +8,7 @@ import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 
-
+// this is the animation screen
 public class WelcomeActivity extends AppCompatActivity {
 
     @Override
@@ -16,7 +16,11 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
         setupSkipButton();
-        new CountDownTimer(5000,1000){
+    }
+
+    private void setupSkipButton() {
+        final CountDownTimer timer;
+        timer = new CountDownTimer(5000,1000){
 
             @Override
             public void onTick(long l) {
@@ -28,13 +32,13 @@ public class WelcomeActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         }.start();
-    }
 
-    private void setupSkipButton() {
         Button skipButton = (Button) findViewById(R.id.skipButton);
         skipButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                timer.cancel();
+
                 Intent intent = new Intent(WelcomeActivity.this,MainMenuActivity.class);
                 startActivity(intent);
             }

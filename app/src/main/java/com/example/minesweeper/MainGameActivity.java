@@ -162,7 +162,6 @@ public class MainGameActivity extends AppCompatActivity {
             pikachuSound.start();
             scanAnimation(r, c);
             updatePikas(r, c);
-            clicked[r][c] = true;
             numOfPikasFound++;
 
             setScans.setText("# Scans Used: " + numOfScans);
